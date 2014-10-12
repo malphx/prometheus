@@ -319,6 +319,7 @@ def parse_routes(config)
       route.gw = $4
       route.distance = $5
     end
+  end
 end
        
     
