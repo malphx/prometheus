@@ -305,7 +305,24 @@ def parse_access_lists(config)
 	end
 end
 
-	
+def parse_routes(config)
+  config.each_line do |line|
+  
+    line.chomp!
+
+    if line =~ /^route (.*) (\d+\.\d+.\d+.\d+) (\d+\.\d+.\d+.\d+) (\d+\.\d+.\d+.\d+) (\d+)/ then
+      vprint_status("Processing route: " + $1)
+      @fw.routes << FWConfig::Route.new($1)
+      route = @fw.routes.last
+      route.dest = $2
+      route.mask = $3
+      route.gw = $4
+      route.distance = $5
+    end
+end
+       
+    
+    	
 ##
 # Input: A space delimited string representing an access control entry (rule)
 #

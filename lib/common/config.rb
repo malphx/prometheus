@@ -11,13 +11,15 @@ module FWConfig
 	# @host_names    - a Hash of name/IP pairs 
 	# @service_names - a list of ServiceName objects 
 	# @network_names - a list of NetworkName objects
+  # @routes        - a list of Route objects
 	# rule_count     - number of rules found
 	# acl_count      - number of acl entries found
 	# int_count      - number of interfaces found
 	# ints_up        - number of interfaces that are up
+  # route_count    - number of routes found
 	class FirewallConfig
 		attr_accessor :name, :firmware, :type, :access_lists, :interfaces
-		attr_accessor :host_names, :service_names, :network_names
+		attr_accessor :host_names, :service_names, :network_names, :routes
   
 		def initialize
 			@name = nil
@@ -28,6 +30,7 @@ module FWConfig
 			@host_names = Hash.new
 			@service_names = Array.new
 			@network_names = Array.new
+			@routes = Array.new
 		end
 
 		##
@@ -73,6 +76,12 @@ module FWConfig
 			end
 
 			return up
+		end
+		
+    ##
+    # Count the number of routes and return the count
+		def route_count
+		  return @routes.length
 		end
 		
 		##
@@ -474,4 +483,57 @@ module FWConfig
 
 	end
 
+	##
+	# Class to hold the routes.
+	#
+	# @ifname  - the name of the interface
+	# @dest    - the destination ip
+	# @mask    - the destination mask
+	# @gw      - the gateway's ip address
+	# @distance  - the administrative distance of the route.
+	class Route
+    attr_accessor :ifname, :dest, :mask, :gw
+    attr_accessor :distance
+    
+    def initialize(name)
+      @ifname = name
+      @dest = ''
+      @mask = ''
+      @gw = ''
+      @distance = '1'
+    end
+    
+    ##
+    # Confirm the input string is in the form of an IP address. If not 
+    # raise a parse error.
+    def dest=(input)
+      if is_ip?(input)
+        @dest = input
+      else
+        raise ParseError.new("Invalid input for FWConfig::Route.dest: #{input}")
+      end
+    end
+
+    ##
+    # Confirm the input string is in the form of a subnet mask. If not
+    # raise a parse error.
+    def mask=(input)      
+      if is_mask?(input)
+        @mask = input
+      else
+        raise ParseError.new("Invalid input for FWConfig::Route.mask: #{input}")
+      end    
+    end
+   
+    ##
+    # Confirm the input string is in the form of an IP address. If not 
+    # raise a parse error.
+    def gw=(input)
+      if is_ip?(input)
+        @gw = input
+      else
+        raise ParseError.new("Invalid input for FWConfig::Route.gw: #{input}")
+      end
+    end 
+	end
 end

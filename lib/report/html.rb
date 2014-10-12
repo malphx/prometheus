@@ -60,6 +60,9 @@ module HTMLReport
 		# Insert Service Names
 		html.gsub!(/--service_names--/, service_names_to_html(firewall.service_names))
 
+    # Insert Routes
+    html.gsub!(/--routes--/, routes_to_html(firewall.routes))
+
 	   	return html
 
 	end
@@ -120,6 +123,35 @@ module HTMLReport
 
 	end
 
+  ##
+    # Input: A list of FWConfig::Route objects
+    # 
+    # Output: A string containing the list of FWConfig::Route objects as HTML. 
+    def routes_to_html(routes)
+      vprint_status("Writing routes to HTML.")
+  
+      h = ''
+      unless routes.empty?
+  
+        h << "<div id=\"routes\">\n"
+        h << "<h3>Routes</h3>\n"
+  
+        t = HTMLTable::Table.new( 
+          'Columns' => ['IFName', 'IP Address', 'Subnet Mask', 'Gateway', 'Distance']
+        )
+  
+        routes.each do |r|
+          t.rows << [r.ifname, r.dest, r.mask, r.gw, r.distance]
+        end
+  
+        h << t.to_html
+        h << "<div>\n"
+      end
+  
+      return h
+  
+    end
+    
 	##
 	# Input: A list of FWConfig::Interface objects.
 	# 
