@@ -7,15 +7,15 @@ hostname WRH-ASA
 domain-name myworkdomainhere.org
 names
 name 192.0.0.25 MAIL-PRIV
-name xxx.xxx.45.196 MAIL-PUB
+name 192.168.45.196 MAIL-PUB
 name 192.0.0.11 TEST-PRIV
 name 192.0.0.207 WEB-PRIV
-name xxx.xxx.45.198 WEB-PUB
+name 192.168.45.198 WEB-PUB
 name 192.0.0.72 CITRIX-02
-name xxx.xxx.45.195 CITRIX02-PUB
+name 192.168.45.195 CITRIX02-PUB
 name 192.0.0.26 Spamstop
 name 192.0.0.235 CHARTLINK
-name xxx.xxx.45.197 CHARTLINK-PUB
+name 192.168.45.197 CHARTLINK-PUB
 name 192.0.0.99 WEBBETA-PRIV
 name xxx.xx.168.156 WEBBETA-PUB
 name xxx.xx.168.157 GWMOBILE-PUB
@@ -27,7 +27,7 @@ dns-guard
 interface Ethernet0/0
  nameif outside
  security-level 0
- ip address xxx.xxx.45.194 255.255.255.248
+ ip address 192.168.45.194 255.255.255.248
 !
 interface Ethernet0/1
  nameif inside
@@ -120,7 +120,7 @@ static (inside,outside) xx.xxx.214.12 10.1.0.173 netmask 255.255.255.255
 static (inside,outside) xx.xxx.214.10 192.0.1.248 netmask 255.255.255.255
 access-group INBOUND in interface outside
 access-group DMZ-INBOUND in interface dmz
-route outside 0.0.0.0 0.0.0.0 xxx.xxx.45.193 1
+route outside 0.0.0.0 0.0.0.0 192.168.45.193 1
 route inside 10.1.0.0 255.255.255.0 10.10.0.1 1
 route inside 172.16.4.0 255.255.255.0 10.10.0.1 1
 route inside 192.0.0.0 255.255.252.0 10.10.0.1 1
