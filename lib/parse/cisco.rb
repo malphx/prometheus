@@ -12,6 +12,7 @@ def parse_cisco_config(config)
     parse_host_names(config)
     parse_network_service_objects(config)
     parse_access_lists(config)
+    parse_routes(config)
     parse_settings(config)
 
 	return @fw
