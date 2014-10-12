@@ -69,7 +69,7 @@ end
 # valid mask value and that each octet is ordered appropriately.
 def is_mask?(str)
     is_mask = false
-    mask = [128, 192, 224, 240, 248, 252, 254, 255]
+    mask = [0, 128, 192, 224, 240, 248, 252, 254, 255]
     
     o1, o2, o3, o4 = str_to_octet(str)
     if (mask.include?(o1) && o2 == 0 && o3 == 0 && o4 == 0) then is_mask = true end
